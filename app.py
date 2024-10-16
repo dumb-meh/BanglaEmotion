@@ -11,10 +11,14 @@ with open('FFM.pkl', 'rb') as model_file:
 with open('vectorizer.pkl', 'rb') as vec_file:
     vectorizer = pickle.load(vec_file)
 
+with open('label_encoder.pkl', 'rb') as le_file:
+    label_encoder = pickle.load(le_file)
+
 def convert_to_sparse_tensor(csr_matrix):
     coo = csr_matrix.tocoo()
     indices = np.mat([coo.row, coo.col]).transpose()
     return tf.sparse.SparseTensor(indices, coo.data, coo.shape)
+    
 
 # Streamlit app
 st.title("NLP Model Predictor")
@@ -31,9 +35,11 @@ if st.button("Predict"):
 
         # Make a prediction
         prediction = model.predict(input_dense)
-        class_labels = model.classes_
-        predicted_class = class_labels[predicted_index]
-        st.write(f"The predicted class is: {predicted_class}")
+        predicted_index = np.argmax(prediction)
+        predicted_class = label_encoder.inverse_transform([predicted_index])
+        st.write(f"The predicted class is: {predicted_class[0]}")
+        
+
     else:
         st.write("Please enter some text to predict.")
 
