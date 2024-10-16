@@ -21,7 +21,7 @@ def convert_to_sparse_tensor(csr_matrix):
     
 
 # Streamlit app
-st.title("NLP Model Predictor")
+st.title("Bangla Emotion Detection: বাংলা লেখা হতে আবেগ নির্ণয়")
 
 input_text = st.text_area("Enter text here:")
 
