@@ -31,7 +31,9 @@ if st.button("Predict"):
 
         # Make a prediction
         prediction = model.predict(input_dense)
-        st.write(f"Prediction: {prediction[0]}")
+        class_labels = model.classes_
+        predicted_class = class_labels[predicted_index]
+        st.write(f"The predicted class is: {predicted_class}")
     else:
         st.write("Please enter some text to predict.")
 
